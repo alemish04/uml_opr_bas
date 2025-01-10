@@ -1,0 +1,115 @@
+
+@startuml
+[*] --> NewApplication : Подана заявка
+
+state NewApplication {
+  [*] --> PendingCriteriaCheck : Проверка критериев
+}
+
+state PendingCriteriaCheck {
+  [*] --> Valid : Заявка соответствует условиям
+  [*] --> Invalid : Заявка не соответствует условиям
+}
+
+state Valid {
+  [*] --> Confirmed : Подтверждена
+  [*] --> [*] : Заявка открыта
+}
+
+state Invalid {
+  [*] --> Rejected : Отклонена
+  [*] --> [*] : Заявка отклонена
+}
+
+state Confirmed {
+  [*] --> [*] : Заявка подтверждена
+}
+
+state Rejected {
+  [*] --> [*] : Заявка отклонена
+}
+
+NewApplication --> PendingCriteriaCheck : Отправить на проверку
+PendingCriteriaCheck --> Valid : Соответствует
+PendingCriteriaCheck --> Invalid : Не соответствует
+Valid --> Confirmed : Подтвердить
+Invalid --> Rejected : Отклонить
+
+@enduml
+
+
+
+@startuml
+[*] --> NewApplication : Подана заявка
+
+state NewApplication {
+  [*] --> PendingCriteriaCheck : Проверка критериев
+}
+
+state PendingCriteriaCheck {
+  [*] --> Valid : Заявка соответствует условиям
+  [*] --> Invalid : Заявка не соответствует условиям
+}
+
+state Valid {
+  [*] --> Confirmed : Подтверждена
+}
+
+state Invalid {
+  [*] --> Rejected : Отклонена
+}
+
+NewApplication --> PendingCriteriaCheck : Отправить на проверку
+PendingCriteriaCheck --> Valid : Соответствует
+PendingCriteriaCheck --> Invalid : Не соответствует
+Valid --> Confirmed : Подтвердить
+Invalid --> Rejected : Отклонить
+
+@enduml
+
+
+
+@startuml
+[*] --> NewApplication : Подана заявка
+
+state NewApplication {
+  [*] --> PendingCriteriaCheck : Проверка критериев
+}
+
+state PendingCriteriaCheck {
+  [*] --> Valid : Заявка соответствует условиям
+  [*] --> Invalid : Заявка не соответствует условиям
+}
+
+state Valid {
+  [*] --> Confirmed : Подтверждена
+  [*] --> AccountOpened : Вклад открыт
+}
+
+state Invalid {
+  [*] --> Rejected : Отклонена
+}
+
+state Confirmed {
+  [*] --> AccountOpened : Вклад открыт
+}
+
+state Rejected {
+  [*] --> ApplicationClosed : Заявка закрыта
+}
+
+state AccountOpened {
+  [*] --> ApplicationClosed : Заявка закрыта
+}
+
+NewApplication --> PendingCriteriaCheck : Отправить на проверку
+PendingCriteriaCheck --> Valid : Соответствует
+PendingCriteriaCheck --> Invalid : Не соответствует
+Valid --> Confirmed : Подтвердить
+Valid --> AccountOpened : Открыть вклад
+Invalid --> Rejected : Отклонить
+Confirmed --> AccountOpened : Открыть вклад
+Rejected --> ApplicationClosed : Закрыть заявку
+AccountOpened --> ApplicationClosed : Закрыть заявку
+
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+actor Клиент
+
+rectangle Система {
+  usecase "Авторизация" as UC1
+  usecase "Просмотр счета" as UC2
+  usecase "Перевод денег" as UC3
+  usecase "Оплата услуг" as UC4
+  usecase "Ввод реквизитов получателя" as UC5
+  usecase "Проверка баланса" as UC6
+  usecase "Выполнение перевода" as UC7
+  usecase "Подтверждение перевода" as UC8
+}
+
+Клиент -- UC1
+Клиент -- UC2
+Клиент -- UC3
+Клиент -- UC4
+Клиент -- UC5
+Клиент -- UC6
+Клиент -- UC7
+Клиент -- UC8
+
+UC3 .u.> UC5 : <<include>>
+UC5 .u.> UC6 : <<include>>
+UC6 .u.> UC7 : <<include>>
+UC7 .u.> UC8 : <<include>>
+
+' Альтернативные потоки
+usecase "Неверная авторизация" as UC9
+usecase "Недостаточно средств" as UC10
+usecase "Ошибка при выполнении перевода" as UC11
+
+Клиент -- UC9
+Клиент -- UC10
+Клиент -- UC11
+
+UC1 .u.> UC9 : <<extend>>
+UC6 .u.> UC10 : <<extend>>
+UC7 .u.> UC11 : <<extend>>
+
+@enduml

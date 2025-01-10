@@ -1,0 +1,24 @@
+@startuml
+actor SupportSpecialist as SS
+participant "ABIS System\n(Non-Financial)" as ABIS
+
+SS -> ABIS : Initiate user query
+ABIS -> ABIS : Validate user request
+ABIS --> SS : Return user status
+
+alt Technical Support Request
+    SS -> ABIS : Request for technical assistance
+    ABIS --> SS : Provide technical support
+end
+
+alt Consult on Financial Products
+    SS -> ABIS : Request financial product info
+    ABIS --> SS : Provide financial product details
+end
+
+alt Emergency Situation
+    ABIS -> SS : Alert of emergency situation
+    SS -> ABIS : Take immediate action
+end
+
+@enduml
