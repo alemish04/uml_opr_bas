@@ -1,0 +1,81 @@
+
+@startuml 70
+actor Administrator as A
+participant "ABIS System\n(Service Module)" as ABIS
+
+alt Login_as_admin_okkk
+
+A -> ABIS : Initiate system configuration
+ABIS -> ABIS : Validate administrator rights
+ABIS --> A : Return configuration options
+
+par
+
+
+alt Configure User Permissions
+    A -> ABIS : Request to set user permissions
+    ABIS -> ABIS : check user
+
+        opt User has multiple roles
+            ABIS --> A : Which role to set params for?
+            A -> ABIS : Role chosen
+        end
+                    ABIS -> ABIS : Update user permissions
+            ABIS --> A : Update role-specific permissions
+    else no such user
+        ABIS --> A : no such user error
+      
+end
+
+
+loop Every 1 hour
+alt Data Integrity Check
+    
+    A -> ABIS : Request data integrity check
+    ABIS -->  ABIS : Perform data integrity check
+    alt integrity okey
+        ABIS --> A : Data validation okey
+      else hash changed
+        ABIS --> A : Data validation failed
+        opt Backup is alive
+          
+          ABIS -> A : Restore from backup?
+          A --> ABIS : yes/no
+          alt user says yes
+          ABIS -->  ABIS : Restore
+          ABIS --> A : system restored!!!
+          else user says no
+          ABIS --> A : system not restored
+          end
+        else No Backup
+        ABIS --> A : system cannot be restored
+        end
+      
+        
+        
+    A -> ABIS : Request data backup
+    ABIS -->  ABIS : Backup
+    ABIS --> A : Success data backup
+
+    A -> ABIS : Request data archiving
+    ABIS -->  ABIS : Archiving
+    ABIS --> A : Success data archiving
+
+
+
+
+
+else not_admin_or_check_failed
+ABIS --> A : errorsss + sorry + try again
+
+end
+
+end
+end
+end
+
+
+
+@enduml
+
+
