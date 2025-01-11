@@ -1,0 +1,74 @@
+
+@startuml 71
+actor Client as C
+participant "Trading Terminal\n(Real-time)" as TT
+
+alt Login_as_client_okkk
+
+C -> TT : Initiate trading session
+TT -> TT : Validate client rights
+TT --> C : Return trading options
+
+par
+
+
+alt Create Order
+    C -> TT : Request to create order
+    TT -> TT : check client's funds
+
+        opt sufficient funds
+            TT -> TT : Create order
+            TT --> C : Order created
+        else insufficient funds
+            TT --> C : insufficient funds error
+      
+end
+
+
+alt Register Order
+    TT -> TT : Register order
+    TT --> TT : Send order to exchange
+    alt order accepted
+        TT --> C : Order accepted
+      else order rejected
+        TT --> C : order rejected error
+      
+end
+
+
+loop Every 1 second
+alt Execute Order
+    
+    TT -> TT : Get exchange rates
+    TT --> TT : Update quotes
+    TT --> C : Quotes updated
+
+    TT -> TT : Execute order
+    TT --> TT : Get execution result
+    alt execution success
+        TT --> C : Execution success
+      else execution failed
+        TT --> C : execution failed error
+      
+end
+
+
+alt Record Deal
+    TT -> TT : Record deal
+    TT --> C : Deal recorded
+
+end
+
+
+else not_client_or_check_failed
+TT --> C : errorsss + sorry + try again
+
+end
+
+end
+end
+end
+
+
+
+@enduml

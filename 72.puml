@@ -1,0 +1,45 @@
+@startuml 72
+actor Credit_System as CS
+participant "Debt Management Module" as DMM
+actor Client as C
+alt Send Payment Reminders
+CS -> DMM : Send payment reminders to clients
+DMM -> C : Send reminders
+par
+alt Check Payment Status
+DMM -> DMM : Check payment status
+alt payment made
+DMM -> CS : Payment made
+else payment overdue
+DMM -> CS : Payment overdue
+DMM -> DMM : Start process for overdue debt
+DMM -> C : Send notification to client
+alt client contact
+DMM -> CS : Request to contact client
+else client ignores
+DMM -> DMM : Continue process for overdue debt
+end
+end
+loop Every 1 day
+alt Process Overdue Debt
+
+DMM -> DMM : Check for overdue debt
+alt overdue debt found
+    DMM -> CS : Overdue debt found
+    DMM -> DMM : Start process for overdue debt
+  else no overdue debt
+    DMM -> CS : No overdue debt
+end
+end
+loop Every 1 week
+alt Send Report
+DMM -> CS : Send weekly report
+CS -> DMM : Receive report
+end
+else payment failed
+DMM -> CS : Payment failed
+end
+end
+end
+end
+@enduml

@@ -1,0 +1,41 @@
+@startuml 67
+actor Senior_Manager as SM
+participant "Automated Banking System" as ABS
+actor Bank_Employee as BE
+alt Monitor Employee Actions
+SM -> ABS : Monitor employee actions
+ABS -> ABS : Check correctness of actions
+alt valid action
+ABS -> SM : Display correct action message
+else invalid action
+ABS -> SM : Display error message
+SM -> ABS : Correct error
+end
+par
+alt Check Correctness
+ABS -> ABS : Check correctness of actions
+alt correct action
+ABS -> SM : Display correct action message
+else incorrect action
+ABS -> SM : Display error message
+SM -> ABS : Correct error
+end
+alt Correct Errors
+SM -> ABS : Correct error
+ABS -> ABS : Update action status
+ABS -> SM : Display corrected action message
+end
+loop Every 1 minute
+alt Check Status
+
+ABS -> SM : Send status request
+SM -> ABS : Send status response
+ABS -> SM : Display status
+end
+else timeout
+ABS -> SM : Display timeout message
+end
+end
+end
+end
+@enduml

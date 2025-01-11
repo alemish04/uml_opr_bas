@@ -1,0 +1,53 @@
+@startuml 73
+actor User as U
+participant "Remote Client Module" as RCM
+participant "Bank Server" as BS
+alt Login
+U -> RCM : Insert card and enter PIN
+RCM -> RCM : Validate PIN
+alt valid PIN
+RCM -> BS : Send authentication request
+BS -> RCM : Send authentication response
+RCM -> U : Display account balance
+else invalid PIN
+RCM -> U : Display error message
+end
+par
+alt Check Account
+U -> RCM : Request account balance
+RCM -> BS : Send balance request
+BS -> RCM : Send balance response
+RCM -> U : Display account balance
+alt Deposit/Withdrawal
+U -> RCM : Select deposit/withdrawal operation
+RCM -> BS : Send transaction request
+alt sufficient funds
+BS -> RCM : Send transaction response
+RCM -> U : Display transaction result
+else insufficient funds
+RCM -> U : Display error message
+end
+alt Payment/Transfer
+U -> RCM : Select payment/transfer operation
+RCM -> BS : Send transaction request
+alt successful transaction
+BS -> RCM : Send transaction response
+RCM -> U : Display transaction result
+else network error
+RCM -> U : Display error message
+end
+end
+loop Every 1 minute
+alt Check Status
+
+RCM -> BS : Send status request
+BS -> RCM : Send status response
+RCM -> U : Display status
+end
+else timeout
+RCM -> U : Display timeout message
+end
+end
+end
+end
+@enduml

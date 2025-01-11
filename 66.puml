@@ -1,0 +1,46 @@
+@startuml 66
+actor Manager_Operator as MO
+participant "Automated Banking System" as ABS
+actor Client as C
+alt Client Request
+C -> MO : Request transaction
+MO -> ABS : Verify client identity
+ABS -> ABS : Check client identity
+alt valid identity
+ABS -> MO : Display valid identity message
+else invalid identity
+ABS -> MO : Display error message
+end
+
+alt Enter Transaction Details
+MO -> ABS : Enter transaction details
+ABS -> ABS : Validate transaction details
+alt valid details
+ABS -> MO : Display valid details message
+else invalid details
+ABS -> MO : Display error message
+end
+alt Execute Transaction
+ABS -> ABS : Execute transaction
+alt successful transaction
+ABS -> MO : Display successful transaction message
+else failed transaction
+ABS -> MO : Display error message
+end
+alt Confirm Transaction
+ABS -> MO : Confirm transaction
+MO -> C : Display transaction confirmation message
+end
+loop Every 1 minute
+alt Check Status
+
+ABS -> MO : Send status request
+MO -> ABS : Send status response
+ABS -> MO : Display status
+end
+else timeout
+ABS -> MO : Display timeout message
+end
+end
+end
+@enduml

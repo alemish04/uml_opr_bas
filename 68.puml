@@ -1,0 +1,51 @@
+@startuml 68
+actor New_User as NU
+participant "Open Banking System" as OBS
+actor Bank_Employee as BE
+alt Gather Personal Data
+NU -> OBS : Enter personal data
+OBS -> OBS : Validate personal data
+alt valid data
+OBS -> OBS : Create account
+OBS -> OBS : Create application
+OBS -> BE : Send application
+else invalid data
+OBS -> NU : Display error message
+end
+par
+alt Create Account
+OBS -> OBS : Create account
+alt account created
+OBS -> NU : Display account created message
+else duplicate account
+OBS -> NU : Display error message
+end
+alt Create Application
+OBS -> OBS : Create application
+alt application created
+OBS -> NU : Display application created message
+else application error
+OBS -> NU : Display error message
+end
+alt Send Application
+OBS -> BE : Send application
+alt application sent
+BE -> OBS : Send application received message
+else application error
+OBS -> NU : Display error message
+end
+end
+loop Every 1 minute
+alt Check Status
+
+OBS -> BE : Send status request
+BE -> OBS : Send status response
+OBS -> NU : Display status
+end
+else timeout
+OBS -> NU : Display timeout message
+end
+end
+end
+end
+@enduml

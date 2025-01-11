@@ -1,0 +1,57 @@
+@startuml 74
+actor Legal_Entity as LE
+participant "Remote Client Service" as RCS
+participant "Bank Server" as BS
+actor Accountant as A
+alt Login
+LE -> RCS : Enter login and password
+RCS -> RCS : Validate login and password
+alt valid login
+RCS -> BS : Send authentication request
+BS -> RCS : Send authentication response
+RCS -> LE : Display account balance
+else invalid login
+RCS -> LE : Display error message
+end
+par
+alt Check Account
+LE -> RCS : Request account balance
+RCS -> BS : Send balance request
+BS -> RCS : Send balance response
+RCS -> LE : Display account balance
+alt Check Payments
+LE -> RCS : Request payment history
+RCS -> BS : Send payment history request
+BS -> RCS : Send payment history response
+RCS -> LE : Display payment history
+alt Make Payments
+LE -> RCS : Select payment operation
+RCS -> BS : Send payment request
+alt sufficient funds
+BS -> RCS : Send payment response
+RCS -> LE : Display payment result
+else insufficient funds
+RCS -> LE : Display error message
+end
+alt Tax Accounting
+RCS -> A : Send tax accounting data
+A -> RCS : Send tax accounting response
+RCS -> LE : Display tax accounting result
+alt Financial Accounting
+RCS -> A : Send financial accounting data
+A -> RCS : Send financial accounting response
+RCS -> LE : Display financial accounting result
+end
+loop Every 1 day
+alt Check Status
+RCS -> BS : Send status request
+BS -> RCS : Send status response
+RCS -> LE : Display status
+end
+else timeout
+RCS -> LE : Display timeout message
+end
+end
+end
+end
+@enduml
