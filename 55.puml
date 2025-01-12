@@ -17,8 +17,8 @@ rectangle Система {
 Клиент -- UC3
 Клиент -- UC4
 Клиент -- UC5
-Клиент -- UC6
-Клиент -- UC7
+' Клиент -- UC6
+' Клиент -- UC7
 Клиент -- UC8
 
 UC3 .u.> UC5 : <<include>>
@@ -26,17 +26,19 @@ UC5 .u.> UC6 : <<include>>
 UC6 .u.> UC7 : <<include>>
 UC7 .u.> UC8 : <<include>>
 
+UC4 .u.> UC6 : <<include>>
+
 ' Альтернативные потоки
 usecase "Неверная авторизация" as UC9
 usecase "Недостаточно средств" as UC10
 usecase "Ошибка при выполнении перевода" as UC11
 
-Клиент -- UC9
-Клиент -- UC10
-Клиент -- UC11
+' Клиент -- UC9
+' Клиент -- UC10
+' Клиент -- UC11
 
-UC1 .u.> UC9 : <<extend>>
-UC6 .u.> UC10 : <<extend>>
-UC7 .u.> UC11 : <<extend>>
+UC1 <.u. UC9 : <<extend>>
+UC6 <.u. UC10 : <<extend>>
+UC7 <.u. UC11 : <<extend>>
 
 @enduml

@@ -27,6 +27,13 @@ alt Configure User Permissions
       
 end
 
+    A -> ABIS : Request data backup
+    ABIS -->  ABIS : Backup
+    ABIS --> A : Success data backup
+
+    A -> ABIS : Request data archiving
+    ABIS -->  ABIS : Archiving
+    ABIS --> A : Success data archiving
 
 loop Every 1 hour
 alt Data Integrity Check
@@ -53,13 +60,7 @@ alt Data Integrity Check
       
         
         
-    A -> ABIS : Request data backup
-    ABIS -->  ABIS : Backup
-    ABIS --> A : Success data backup
 
-    A -> ABIS : Request data archiving
-    ABIS -->  ABIS : Archiving
-    ABIS --> A : Success data archiving
 
 
 
@@ -72,6 +73,8 @@ end
 
 end
 end
+
+
 end
 
 
